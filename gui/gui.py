@@ -1,3 +1,8 @@
+"""
+    Author: Marc Ortiz Torres
+    Date: 19 Feb 2024
+"""
+
 from ai.inference import StableDiffusion
 
 from PIL import Image, ImageTk

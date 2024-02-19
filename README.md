@@ -3,27 +3,36 @@
 This repository contains code to run a stable diffusion model that generates new images, given an existing image and a promp text.
 The software can be interacted via GUI or terminal, as shown in the picture below:
 
-![Alt text](./example_interface.png)
+![Alt text](./images_readme/example_interface.png)
 
 The model not only changes the style of the input image, but is also to interpret what you request in the prompt and add it to the final image.
 
 
 ## Installation
-`pip install -r requirements.txt` \
+Install pytorch >= 2.0 with cuda support.
 
-Then just add to the PYTHONPATH variable the location of the project folder: \
+Install the requirements: `pip install -r requirements.txt` 
+
+Add the location of the project to PYTHONPATH: \
 `export PYTHONPATH=$PYTHONPATH/path/to/project/folder`
 
 ## Usage
 #### Step 1: Run the interface
 Execute the script you'll find in `./gui/gui.py`. It will take a bit of time to open since it's loading the model. \
-![Alt text](./step1.png)
+![Alt text](./images_readme/step1.png)
 
 #### Step 2: Click on the left side of the panel to load an image
-![Alt text](./steep2.png)
+![Alt text](./images_readme/steep2.png)
 
 #### Step 3: Write a prompt and click button to run  inference
-![Alt text](./step4.png)
+![Alt text](./images_readme/step4.png)
+
+#### Optional: Run without interface
+You can also run the code without a graphical interface. To do so, please execute the script in `./ai/inference.py` with the right arguments.
+
+## Improvements
+* Select the region in the image that you want the style to be applied
+* Possibility to generate an image from scratch with the prompt
 
 ## Information
 **Author**: Marc Ortiz Torres \
