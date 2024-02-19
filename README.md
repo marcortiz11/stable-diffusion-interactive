@@ -18,7 +18,7 @@ Add the location of the project to PYTHONPATH: \
 
 ## Usage
 #### Step 1: Run the interface
-Execute the script you'll find in `./gui/gui.py`. It will take a bit of time to open since it's loading the model. \
+Execute the script you'll find in `./src/gui/gui.py`. It will take a bit of time to open since it's loading the model. \
 ![Alt text](./images_readme/step1.png)
 
 #### Step 2: Click on the left side of the panel to load an image
@@ -28,7 +28,7 @@ Execute the script you'll find in `./gui/gui.py`. It will take a bit of time to 
 ![Alt text](./images_readme/step4.png)
 
 #### Optional: Run without interface
-You can also run the code without a graphical interface. To do so, please execute the script in `./ai/inference.py` with the right arguments.
+You can also run the code without a graphical interface. To do so, please execute the script in `./src/ai/inference.py` with the right arguments.
 
 ## Improvements
 * Select the region in the image that you want the style to be applied
