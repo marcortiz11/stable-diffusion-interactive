@@ -4,6 +4,7 @@
 """
 
 from src.ai.inference import StableDiffusion
+from src.utils import euclidean_distance
 
 import tkinter as tk
 import numpy as np
@@ -14,8 +15,8 @@ class Window:
 
     def __init__(self):
         self.engine = StableDiffusion()
-        self.rectangle = []
-        self.canvas_ids = []
+        self.polygon_coords = []
+        self.polygon_closed = False
 
         self.window = tk.Tk()
         self.window.geometry("900x400")
@@ -52,7 +53,8 @@ class Window:
                                            height=400,
                                            width=450)
         self.input_image_label.pack(fill=tk.BOTH, expand=True)
-        self.input_image_label.bind('<Button-1>', self.draw_rectangle)
+        self.input_image_label.bind('<Button-1>', self.draw_polygon)
+        self.input_image_label.bind('<Button-3>', self.draw_polygon)
 
         self.image_canvas = self.input_image_label.create_image(self.input_image_label.winfo_width()/10,
                                                                 self.input_image_label.winfo_height()/10,
@@ -80,8 +82,8 @@ class Window:
 
     def do_inference(self, event):
         prompt = self.prompt_text.get()
-        if len(self.rectangle) == 5:
-            mask = Image.fromarray(self.make_mask_from_rectangle())
+        if self.polygon_closed:
+            mask = Image.fromarray(self.make_mask_from_polygon())
         else:
             mask = None
 
@@ -100,29 +102,35 @@ class Window:
     def save_file(self, engine):
         file = fd.asksaveasfile(mode='w', defaultextension=".png")
         if file:
-            self.output.save(file)
+            self.final_image.save(file)
 
-    def make_mask_from_rectangle(self):
+    def make_mask_from_polygon(self):
         img = Image.new('L', (self.output_frame.winfo_width(),  self.output_image_label.winfo_height()), 0)
-        ImageDraw.Draw(img).polygon(self.rectangle, outline=255, fill=255)
+        ImageDraw.Draw(img).polygon(self.polygon_coords, outline=255, fill=255)
         inverted_img = ImageOps.invert(img)
         mask = np.array(inverted_img)
         return mask
 
-    def draw_rectangle(self, event):
+    def draw_polygon(self, event):
+        if not self.polygon_closed:
+            self.polygon_coords.append((event.x, event.y))
+            first_point = self.polygon_coords[0]
+            last_point = self.polygon_coords[-1]
 
-        if len(self.rectangle) > 3:
-            self.rectangle.append(self.rectangle[0])
-            print(self.rectangle)
+            if len(self.polygon_coords) > 3 and euclidean_distance(first_point, last_point) < 8:
+                self.polygon_coords.pop(-1)
+                self.polygon_coords.append(first_point)
+                self.polygon_closed = True
+
+            if len(self.polygon_coords) > 1:
+                self.input_image_label.create_line(*self.polygon_coords[-1], *self.polygon_coords[-2], tags='polygon')
         else:
-            self.rectangle.append((event.x, event.y))
+            print("Polygon is closed, run inference or right-click with mouse to clear it.")
 
-        if len(self.rectangle) > 1:
-            self.input_image_label.create_line(*self.rectangle[-1], *self.rectangle[-2], tags='rectangle')
-
-        if len(self.rectangle) > 5:
+        if event.num == 3:
             self.rectangle = []
-            self.input_image_label.delete('rectangle')
+            self.input_image_label.delete('polygon')
+            self.polygon_closed = False
 
     def run(self):
         self.window.mainloop()

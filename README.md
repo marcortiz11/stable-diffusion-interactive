@@ -1,7 +1,7 @@
-# Image style change with Stable diffusion
+# Image style transfer with Stable diffusion
 
-This repository contains code to run a stable diffusion model that generates new images, given an existing image and a promp text.
-The software can be interacted via GUI or terminal, as shown in the picture below:
+This repository contains code to run a stable diffusion model to generates new images from a reference image and a prompt.
+The software can be interacted via terminal or GUI, as shown in the picture below:
 
 ![Alt text](./images_readme/step3.png)
 
@@ -9,14 +9,16 @@ The model not only changes the style of the input image, but is also to interpre
 
 
 ## Installation
-Install pytorch >= 2.0 with **cuda support**.
+1) Install pytorch >= 2.0 with **cuda support**.
 
-Install Tkinter: `sudo apt-get install python-tk ` in Ubuntu.
+2) Install Tkinter: `sudo apt-get install python-tk ` in Ubuntu.
 
-Create a conda environment: `conda env create -f environment.yml` 
+3) Create a conda environment: `conda env create -f environment.yml` 
 
-Add the location of the project to PYTHONPATH: \
-`export PYTHONPATH=$PYTHONPATH/path/to/project/folder`
+4) Activate the conda environment: `conda activate stable-diffusion-interactive`
+
+5) Add the location of the project to PYTHONPATH: \
+`export PYTHONPATH=$PYTHONPATH:/path/to/project/folder`
 
 ## Usage
 #### Step 1: Run the interface
@@ -29,9 +31,10 @@ Execute the script you'll find in `./src/gui/gui.py`. It will take a bit of time
 #### Step 3: Write a prompt and click the button to run  inference
 ![Alt text](./images_readme/step3.png)
 
-#### Step 4: Select the area of the image to change
-You can also select a rectangle in the input image where you want the prompt to be applied. In the following example, we take a portrait of a person and change it to become a gladiator, with a background of a Roman city
-![Alt text](./images_readme/step5.png)
+You can also select a polygon in the input image where you want the prompt to be applied. 
+In the following example, we take a portrait of a person and change it to become a gladiator.
+The polygon is built by clicking the desired area in the input image. To clear the polygon just click with the right button of the mouse.
+![Alt text](./images_readme/step4_selection.png)
 
 #### Optional: Run without interface
 You can also run the code without a graphical interface. To do so, please execute the script in `./src/ai/inference.py`.
