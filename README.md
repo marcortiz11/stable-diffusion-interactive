@@ -37,7 +37,11 @@ The polygon is built by clicking the desired area in the input image. To clear t
 ![Alt text](./images_readme/step4_selection.png)
 
 #### Optional: Run without interface
-You can also run the code without a graphical interface. To do so, please execute the script in `./src/ai/inference.py`.
+You can also run the code without a graphical interface. 
+To do so, please execute the script in `./src/ai/pix2pix_pipeline.py` to execute the PIX2PIX model.
+
+I also provided another diffusion model called Stable Diffusion XL that can be run without GUI, and it's supposed to give better results. 
+Execute the `./src/ai/SDXL_pipeline.py` script to run the Stable Diffusion XL model.
 
 ## Room for improvement
 Here I list some improvements that could be done to the project:

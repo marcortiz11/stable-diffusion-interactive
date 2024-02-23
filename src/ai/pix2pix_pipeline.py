@@ -10,7 +10,7 @@ import torch
 from diffusers import StableDiffusionInstructPix2PixPipeline, EulerAncestralDiscreteScheduler
 
 
-class StableDiffusion:
+class Pix2Pix:
 
     def __init__(self, model_id="timbrooks/instruct-pix2pix"):
         self.model_id = model_id
@@ -23,7 +23,7 @@ class StableDiffusion:
         """
         Runs the pipeline
         """
-        return self.pipe(prompt, image=image, num_inference_steps=10, image_guidance_scale=1).images
+        return self.pipe(prompt, image=image, num_inference_steps=50, image_guidance_scale=1).images[0]
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -41,8 +41,8 @@ if __name__ == "__main__":
     prompt = args.prompt
     image = PIL.Image.open(args.image)
 
-    pipeline = StableDiffusion()
-    image_result = pipeline.run(image, prompt)[0]
+    pipeline = Pix2Pix()
+    image_result = pipeline.run(image, prompt)
 
     # Save
     image_result.save(args.output)

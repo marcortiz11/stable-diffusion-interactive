@@ -3,7 +3,7 @@
     Date: 19 Feb 2024
 """
 
-from src.ai.inference import StableDiffusion
+from src.ai.pix2pix_pipeline import Pix2Pix
 from src.utils import euclidean_distance
 
 import tkinter as tk
@@ -14,7 +14,7 @@ from tkinter import filedialog as fd
 class Window:
 
     def __init__(self):
-        self.engine = StableDiffusion()
+        self.engine = Pix2Pix()
         self.polygon_coords = []
         self.polygon_closed = False
 
@@ -89,7 +89,7 @@ class Window:
 
         if prompt.isascii() and len(prompt):
             image = Image.open(self.filename).resize((self.output_frame.winfo_width(), self.output_image_label.winfo_height()))
-            output = self.engine.run(image, prompt)[0].resize((self.output_frame.winfo_width(), self.output_image_label.winfo_height()))
+            output = self.engine.run(image, prompt).resize((self.output_frame.winfo_width(), self.output_image_label.winfo_height()))
             if mask is not None:
                 self.final_image = Image.composite(image, output, mask)
             else:
@@ -112,23 +112,24 @@ class Window:
         return mask
 
     def draw_polygon(self, event):
-        if not self.polygon_closed:
-            self.polygon_coords.append((event.x, event.y))
-            first_point = self.polygon_coords[0]
-            last_point = self.polygon_coords[-1]
+        if event.num != 3:
+            if not self.polygon_closed:
+                self.polygon_coords.append((event.x, event.y))
+                first_point = self.polygon_coords[0]
+                last_point = self.polygon_coords[-1]
 
-            if len(self.polygon_coords) > 3 and euclidean_distance(first_point, last_point) < 8:
-                self.polygon_coords.pop(-1)
-                self.polygon_coords.append(first_point)
-                self.polygon_closed = True
+                if len(self.polygon_coords) > 3 and euclidean_distance(first_point, last_point) < 8:
+                    self.polygon_coords.pop(-1)
+                    self.polygon_coords.append(first_point)
+                    self.polygon_closed = True
 
-            if len(self.polygon_coords) > 1:
-                self.input_image_label.create_line(*self.polygon_coords[-1], *self.polygon_coords[-2], tags='polygon')
-        else:
-            print("Polygon is closed, run inference or right-click with mouse to clear it.")
+                if len(self.polygon_coords) > 1:
+                    self.input_image_label.create_line(*self.polygon_coords[-1], *self.polygon_coords[-2], tags='polygon')
+            else:
+                print("Polygon is closed, run inference or right-click with mouse to clear it.")
 
         if event.num == 3:
-            self.rectangle = []
+            self.polygon_coords = []
             self.input_image_label.delete('polygon')
             self.polygon_closed = False
 
