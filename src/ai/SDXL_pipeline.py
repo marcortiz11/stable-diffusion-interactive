@@ -3,9 +3,6 @@ import argparse
 import PIL
 import torch
 from diffusers import AutoPipelineForImage2Image
-from diffusers.utils import make_image_grid, load_image
-
-
 
 class SDXL:
 
@@ -24,7 +21,7 @@ class SDXL:
         """
         Runs the pipeline
         """
-        image = self.pipe(prompt, image=init_image, strength=0.8).images[0]
+        image = self.pipe(prompt, image=init_image, strength=0.5).images[0]
         return image
 
 def parse_arguments():

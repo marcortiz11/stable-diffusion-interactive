@@ -23,7 +23,7 @@ class Pix2Pix:
         """
         Runs the pipeline
         """
-        return self.pipe(prompt, image=image, num_inference_steps=50, image_guidance_scale=1).images[0]
+        return self.pipe(prompt, image=image, num_inference_steps=20, image_guidance_scale=1).images[0]
 
 def parse_arguments():
     parser = argparse.ArgumentParser()

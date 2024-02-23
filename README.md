@@ -4,9 +4,13 @@ This repository contains code to run a stable diffusion model to generates new i
 The software can be interacted via terminal or GUI, as shown in the picture below:
 
 ![Alt text](./images_readme/step3.png)
+![Alt text](./images_readme/cartoon.png)
 
 The model not only changes the style of the input image, but is also to interpret what you request in the prompt and add it to the final image.
 
+Two image-to-image generator models have been integrated in this project: 
+* [Pix2Pix](https://huggingface.co/timbrooks/instruct-pix2pix)
+* [StableDiffusionXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)
 
 ## Installation
 1) Install pytorch >= 2.0 with **cuda support**.
